@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Slicing Pie — hentaila.pro | Reparto de Acciones</title>
+    <meta name="description" content="Sistema de reparto dinámico de acciones para el equipo de hentaila.pro">
+    <link rel="stylesheet" href="assets/css/slicing-pie.css">
+</head>
+<body>
+
+<header class="sp-header">
+    <h1>🥧 SLICING PIE — hentaila.pro</h1>
+    <p>Modelo de Mike Moyer — Reparto Dinámico de Acciones por Tareas Completadas</p>
+    <button class="sp-admin-toggle" id="adminToggle" title="Modo Admin">⚙️ Admin</button>
+</header>
+
+<div class="sp-container">
+    <!-- ADMIN TOOLBAR (hidden by default) -->
+    <div class="sp-admin-bar" id="adminBar" style="display:none;">
+        <span>🔧 <strong>Modo Administrador</strong> — Los cambios se guardan al presionar "Guardar"</span>
+        <div class="sp-admin-actions">
+            <button class="sp-btn sp-btn-add" id="btnAddMission">+ Nueva Misión</button>
+            <button class="sp-btn sp-btn-add" id="btnAddInvestment">+ Inversión</button>
+            <button class="sp-btn sp-btn-save" id="btnSave">💾 Guardar Archivo</button>
+        </div>
+    </div>
+
+    <!-- PROGRESS -->
+    <div class="sp-progress" id="global-progress"></div>
+
+    <!-- DASHBOARD -->
+    <div class="sp-dashboard">
+        <div class="sp-chart-card">
+            <h2>% de Acciones</h2>
+            <canvas id="pieChart" width="280" height="280"></canvas>
+            <div class="sp-total-slices" id="total-slices">0</div>
+        </div>
+        <div class="sp-ranking" id="ranking-grid"></div>
+    </div>
+
+    <!-- STATS -->
+    <div class="sp-stats sp-stats-6" id="stats-row"></div>
+
+    <!-- MISSIONS -->
+    <div class="sp-section-header">
+        <h3 class="sp-section-title">Tablero de Misiones</h3>
+        <button class="sp-btn-refresh" id="btnRefresh" title="Refrescar dashboard">🔄</button>
+    </div>
+    <div class="sp-filters" id="category-filters"></div>
+    <div class="sp-table-wrap">
+        <table class="sp-table" id="missions-table">
+            <thead>
+                <tr>
+                    <th>Categoría</th>
+                    <th>Misión / Tarea</th>
+                    <th>Slices</th>
+                    <th>Estado</th>
+                    <th>Responsables</th>
+                    <th>Fecha</th>
+                    <th class="admin-col" style="display:none;">Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="missions-body"></tbody>
+        </table>
+    </div>
+
+    <!-- INVESTMENTS -->
+    <h3 class="sp-section-title">Inversiones de Dinero (×4)</h3>
+    <div class="sp-table-wrap" style="margin-bottom:32px;">
+        <table class="sp-table sp-inv-table">
+            <thead>
+                <tr>
+                    <th>Fecha</th>
+                    <th>Persona</th>
+                    <th>Concepto</th>
+                    <th>Monto</th>
+                    <th>×</th>
+                    <th>Slices</th>
+                    <th class="admin-col" style="display:none;">Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="investments-body"></tbody>
+        </table>
+    </div>
+
+    <!-- RULES -->
+    <button class="sp-rules-toggle" id="rules-toggle">
+        📜 Reglas del Juego — Slicing Pie Gamificado
+        <span class="arrow">▼</span>
+    </button>
+    <div class="sp-rules-content" id="rules-content">
+        <ul>
+            <li><span class="rule-num">1.</span><div><span class="rule-text">Cada tarea tiene un valor fijo en SLICES.</span><div class="rule-note">No importa si tardas 5 minutos o 5 horas.</div></div></li>
+            <li><span class="rule-num">2.</span><div><span class="rule-text">Solo cuentan las tareas COMPLETADAS.</span><div class="rule-note">En progreso = 0 slices.</div></div></li>
+            <li><span class="rule-num">3.</span><div><span class="rule-text">Tu % = Tus Slices / Total de todos × 100.</span><div class="rule-note">Se recalcula automáticamente.</div></div></li>
+            <li><span class="rule-num">4.</span><div><span class="rule-text">El dinero invertido se multiplica ×4.</span><div class="rule-note">Perder dinero duele más que perder tiempo.</div></div></li>
+            <li><span class="rule-num">5.</span><div><span class="rule-text">Los slices de una tarea se reparten por %.</span><div class="rule-note">Si Maximo hizo 60% y Gonzalo 40% de una tarea de 100 slices: Maximo = 60, Gonzalo = 40.</div></div></li>
+            <li><span class="rule-num">6.</span><div><span class="rule-text">Los % se CONGELAN al generar ingresos estables.</span><div class="rule-note">Primer mes con ganancias consistentes.</div></div></li>
+            <li><span class="rule-num">⚠️</span><div><span class="rule-text">Si alguien se va voluntariamente → pierde 50% de sus slices.</span><div class="rule-note">Removido por inactividad → pierde 100%. Causa justificada → conserva 100%.</div></div></li>
+        </ul>
+    </div>
+</div>
+
+<!-- ==================== MODAL: EDITAR/AGREGAR MISIÓN ==================== -->
+<div class="sp-modal-overlay" id="missionModal" style="display:none;">
+    <div class="sp-modal">
+        <div class="sp-modal-header">
+            <h3 id="modalTitle">Nueva Misión</h3>
+            <button class="sp-modal-close" id="modalClose">✕</button>
+        </div>
+        <div class="sp-modal-body">
+            <div class="sp-form-row">
+                <label>Categoría</label>
+                <select id="mCat">
+                    <option>DISEÑO</option><option>SEO</option><option>MARKETING</option>
+                    <option>DEPLOY</option><option>DATABASE</option><option>VIDEOS</option>
+                    <option>CATÁLOGO</option><option>TIERLIST</option><option>AKINATOR</option>
+                </select>
+            </div>
+            <div class="sp-form-row">
+                <label>Descripción de la tarea</label>
+                <input type="text" id="mTask" placeholder="Ej: Subir anime Overflow a 5 servidores">
+            </div>
+            <div class="sp-form-row sp-form-inline">
+                <div>
+                    <label>Slices</label>
+                    <input type="number" id="mSlices" value="30" min="1">
+                </div>
+                <div>
+                    <label>Estado</label>
+                    <select id="mStatus">
+                        <option value="">Pendiente</option>
+                        <option value="HECHO">HECHO</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Fecha</label>
+                    <input type="text" id="mDate" placeholder="DD/MM/AAAA">
+                </div>
+            </div>
+            <div class="sp-form-row">
+                <label>Responsables y % de participación</label>
+                <div id="contributorsArea"></div>
+                <button class="sp-btn sp-btn-small" id="btnAddContrib">+ Agregar Persona</button>
+            </div>
+        </div>
+        <div class="sp-modal-footer">
+            <button class="sp-btn sp-btn-cancel" id="modalCancel">Cancelar</button>
+            <button class="sp-btn sp-btn-confirm" id="modalConfirm">Guardar Misión</button>
+        </div>
+    </div>
+</div>
+
+<!-- ==================== MODAL: INVERSIÓN ==================== -->
+<div class="sp-modal-overlay" id="investModal" style="display:none;">
+    <div class="sp-modal">
+        <div class="sp-modal-header">
+            <h3>Nueva Inversión</h3>
+            <button class="sp-modal-close" id="invModalClose">✕</button>
+        </div>
+        <div class="sp-modal-body">
+            <div class="sp-form-row sp-form-inline">
+                <div><label>Fecha</label><input type="text" id="iDate" placeholder="DD/MM/AAAA"></div>
+                <div><label>Persona</label>
+                    <select id="iWho"></select>
+                </div>
+            </div>
+            <div class="sp-form-row">
+                <label>Concepto</label>
+                <input type="text" id="iConcept" placeholder="Ej: Dominio hentaila.pro">
+            </div>
+            <div class="sp-form-row sp-form-inline">
+                <div><label>Monto (USD)</label><input type="number" id="iAmount" value="10" min="1"></div>
+                <div><label>Multiplicador</label><input type="number" id="iMult" value="4" min="1"></div>
+            </div>
+        </div>
+        <div class="sp-modal-footer">
+            <button class="sp-btn sp-btn-cancel" id="invCancel">Cancelar</button>
+            <button class="sp-btn sp-btn-confirm" id="invConfirm">Agregar Inversión</button>
+        </div>
+    </div>
+</div>
+
+<!-- ==================== TOAST ==================== -->
+<div class="sp-toast" id="toast"></div>
+
+<script src="assets/js/slicing-pie-data.js"></script>
+<script>
+(function() {
+    // =============================================
+    // STATE
+    // =============================================
+    var missions = JSON.parse(JSON.stringify(MISSIONS));
+    var investments = JSON.parse(JSON.stringify(INVESTMENTS));
+    var team = JSON.parse(JSON.stringify(TEAM));
+    var adminMode = false;
+    var editingIndex = -1;
+    var currentFilter = 'all';
+
+    // =============================================
+    // UTILS
+    // =============================================
+    function $(id) { return document.getElementById(id); }
+    function showToast(msg, type) {
+        var t = $('toast');
+        t.textContent = msg;
+        t.className = 'sp-toast show ' + (type || '');
+        setTimeout(function() { t.className = 'sp-toast'; }, 3000);
+    }
+
+    // =============================================
+    // CALCULATIONS
+    // =============================================
+    function calculate() {
+        var personData = {};
+        team.forEach(function(t) {
+            personData[t.name] = { slices: 0, missions: 0, money: 0, color: t.color, role: t.role };
+        });
+
+        var totalMissions = missions.length;
+        var completed = 0;
+        var totalPossible = 0;
+
+        missions.forEach(function(m) {
+            totalPossible += m.slices;
+            if (m.status === "HECHO" && m.contributors && m.contributors.length > 0) {
+                completed++;
+                m.contributors.forEach(function(c) {
+                    if (personData[c.name]) {
+                        personData[c.name].slices += Math.round(m.slices * c.pct / 100);
+                        personData[c.name].missions += 1;
+                    }
+                });
+            }
+        });
+
+        var totalInvested = 0;
+        investments.forEach(function(inv) {
+            var earned = inv.amount * inv.multiplier;
+            if (personData[inv.who]) {
+                personData[inv.who].slices += earned;
+                personData[inv.who].money += inv.amount;
+            }
+            totalInvested += inv.amount;
+        });
+
+        var totalSlices = 0;
+        Object.keys(personData).forEach(function(n) { totalSlices += personData[n].slices; });
+
+        var remaining = totalPossible - missions.filter(function(m){return m.status==="HECHO";}).reduce(function(sum,m){return sum+m.slices;},0);
+
+        var sorted = Object.keys(personData).map(function(name) {
+            var p = personData[name];
+            return { name:name, slices:p.slices, missions:p.missions, money:p.money, color:p.color, role:p.role,
+                     pct: totalSlices > 0 ? (p.slices/totalSlices*100) : 0 };
+        }).sort(function(a,b) { return b.slices - a.slices; });
+
+        return { sorted:sorted, totalSlices:totalSlices, totalMissions:totalMissions, completed:completed, totalInvested:totalInvested, totalPossible:totalPossible, remaining:remaining };
+    }
+
+    // =============================================
+    // RENDER ALL
+    // =============================================
+    function render() {
+        var data = calculate();
+
+        // Progress
+        var pct = data.totalMissions > 0 ? (data.completed/data.totalMissions*100) : 0;
+        $('global-progress').innerHTML =
+            '<div class="sp-progress-label"><span>Progreso del Proyecto</span>' +
+            '<span>' + data.completed + ' / ' + data.totalMissions + ' misiones (' + pct.toFixed(1) + '%)</span></div>' +
+            '<div class="sp-progress-bar"><div class="sp-progress-fill" style="width:'+pct+'%"></div></div>';
+
+        // Pie Chart
+        renderPieChart(data);
+
+        // Total
+        $('total-slices').innerHTML = data.totalSlices.toLocaleString() + '<span>slices totales acumulados</span>';
+
+        // Ranking
+        var rk = '';
+        data.sorted.forEach(function(p,i) {
+            rk += '<div class="sp-person" style="--person-color:'+p.color+'">'+
+                '<span class="sp-person-rank">#'+(i+1)+'</span>'+
+                '<div class="sp-person-name">'+p.name+'</div>'+
+                '<div class="sp-person-pct">'+p.pct.toFixed(1)+'%</div>'+
+                '<div class="sp-person-slices">'+p.slices.toLocaleString()+' slices</div>'+
+                '<div class="sp-person-missions">'+p.missions+' misiones</div>'+
+                '<div class="sp-person-bar"><div class="sp-person-bar-fill" style="width:'+p.pct+'%"></div></div>'+
+            '</div>';
+        });
+        $('ranking-grid').innerHTML = rk;
+
+        // Stats
+        $('stats-row').innerHTML =
+            '<div class="sp-stat"><div class="sp-stat-value">'+team.length+'</div><div class="sp-stat-label">Integrantes</div></div>'+
+            '<div class="sp-stat"><div class="sp-stat-value">'+data.completed+'/'+data.totalMissions+'</div><div class="sp-stat-label">Misiones</div></div>'+
+            '<div class="sp-stat"><div class="sp-stat-value">$'+data.totalInvested+'</div><div class="sp-stat-label">Invertido</div></div>'+
+            '<div class="sp-stat"><div class="sp-stat-value">'+data.totalSlices.toLocaleString()+'</div><div class="sp-stat-label">Slices Ganados</div></div>'+
+            '<div class="sp-stat"><div class="sp-stat-value">'+data.totalPossible.toLocaleString()+'</div><div class="sp-stat-label">Slices Totales</div></div>'+
+            '<div class="sp-stat sp-stat-remaining"><div class="sp-stat-value">'+data.remaining.toLocaleString()+'</div><div class="sp-stat-label">Slices Restantes</div></div>';
+
+        // Filters
+        renderFilters();
+        renderMissions(currentFilter);
+        renderInvestments();
+    }
+
+    function renderPieChart(data) {
+        var canvas = $('pieChart');
+        var ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        var size = canvas.width, center = size/2, radius = center-10;
+        var startAngle = -Math.PI/2;
+        var trueTotal = data.totalSlices + data.remaining;
+
+        var chartData = data.sorted.filter(function(p){return p.slices>0;}).map(function(p) {
+            return {
+                name: p.name,
+                slices: p.slices,
+                pct: (p.slices / trueTotal) * 100, // porcentaje sobre el pastel total real
+                color: p.color
+            };
+        });
+
+        if (data.remaining > 0) {
+            chartData.push({
+                name: "Por Reclamar",
+                slices: data.remaining,
+                pct: (data.remaining / trueTotal) * 100,
+                color: "#2a2a3f" // Gris azulado oscuro
+            });
+        }
+        var totalDenominator = trueTotal > 0 ? trueTotal : 1;
+
+        if (chartData.length === 0) {
+            ctx.beginPath(); ctx.arc(center,center,radius,0,Math.PI*2);
+            ctx.fillStyle='#222255'; ctx.fill();
+            ctx.fillStyle='#666'; ctx.font='14px Inter'; ctx.textAlign='center';
+            ctx.fillText('Sin datos', center, center);
+        } else {
+            chartData.forEach(function(p) {
+                var angle = (p.slices/totalDenominator)*Math.PI*2;
+                var end = startAngle + angle;
+                ctx.beginPath(); ctx.moveTo(center,center);
+                ctx.arc(center,center,radius,startAngle,end); ctx.closePath();
+                ctx.fillStyle = p.color; ctx.fill();
+                if (p.pct > 5) {
+                    var mid = startAngle + angle/2;
+                    ctx.fillStyle='#fff'; ctx.font='bold 13px Inter';
+                    ctx.textAlign='center'; ctx.textBaseline='middle';
+                    ctx.fillText(p.pct.toFixed(1)+'%', center+Math.cos(mid)*(radius*0.65), center+Math.sin(mid)*(radius*0.65));
+                }
+                startAngle = end;
+            });
+            ctx.beginPath(); ctx.arc(center,center,radius*0.45,0,Math.PI*2);
+            ctx.fillStyle='#1a1a3e'; ctx.fill();
+            ctx.fillStyle='#E91E8C'; ctx.font='bold 22px Inter';
+            ctx.textAlign='center'; ctx.textBaseline='middle';
+            ctx.fillText(data.totalSlices.toLocaleString(), center, center-8);
+            ctx.fillStyle='#888'; ctx.font='11px Inter';
+            ctx.fillText('SLICES', center, center+12);
+        }
+    }
+
+    function renderFilters() {
+        var cats = []; missions.forEach(function(m){ if(cats.indexOf(m.cat)===-1) cats.push(m.cat); });
+        var h = '<button class="sp-filter-btn'+(currentFilter==='all'?' active':'')+'" data-cat="all">Todas ('+missions.length+')</button>';
+        cats.forEach(function(c) {
+            var n = missions.filter(function(m){return m.cat===c;}).length;
+            h += '<button class="sp-filter-btn'+(currentFilter===c?' active':'')+'" data-cat="'+c+'">'+c+' ('+n+')</button>';
+        });
+        $('category-filters').innerHTML = h;
+    }
+
+    function renderMissions(filter) {
+        var filtered = filter==='all' ? missions : missions.filter(function(m){return m.cat===filter;});
+        var html = '';
+        filtered.forEach(function(m) {
+            var idx = missions.indexOf(m);
+            var catSlug = m.cat.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/\s+/g,'-');
+            var st = m.status==='HECHO' ? 'done' : 'pending';
+            var stTxt = m.status==='HECHO' ? '✅ HECHO' : '⬜ Pendiente';
+
+            // Contributors display
+            var contribHtml = '—';
+            if (m.contributors && m.contributors.length > 0) {
+                contribHtml = m.contributors.map(function(c) {
+                    return '<span class="contrib-tag">'+c.name+' <small>('+c.pct+'%)</small></span>';
+                }).join(' ');
+            }
+
+            html += '<tr data-idx="'+idx+'">'+
+                '<td><span class="col-cat cat-'+catSlug+'">'+m.cat+'</span></td>'+
+                '<td>'+m.task+'</td>'+
+                '<td class="col-slices">'+m.slices+'</td>'+
+                '<td><span class="col-status '+st+'">'+stTxt+'</span></td>'+
+                '<td class="col-contribs">'+contribHtml+'</td>'+
+                '<td>'+(m.date||'—')+'</td>'+
+                '<td class="admin-col"'+(adminMode?'':' style="display:none"')+'>'+
+                    '<button class="sp-btn-icon sp-btn-dup" data-idx="'+idx+'" title="Duplicar">📋</button>'+
+                    '<button class="sp-btn-icon sp-btn-edit" data-idx="'+idx+'" title="Editar">✏️</button>'+
+                    '<button class="sp-btn-icon sp-btn-del" data-idx="'+idx+'" title="Eliminar">🗑️</button>'+
+                '</td>'+
+            '</tr>';
+        });
+        $('missions-body').innerHTML = html;
+    }
+
+    function renderInvestments() {
+        var html = '';
+        investments.forEach(function(inv, i) {
+            var earned = inv.amount * inv.multiplier;
+            html += '<tr>'+
+                '<td>'+inv.date+'</td>'+
+                '<td class="col-who">'+inv.who+'</td>'+
+                '<td>'+inv.concept+'</td>'+
+                '<td class="col-amount">$'+inv.amount+'</td>'+
+                '<td>×'+inv.multiplier+'</td>'+
+                '<td class="col-result">'+earned+' slices</td>'+
+                '<td class="admin-col"'+(adminMode?'':' style="display:none"')+'>'+
+                    '<button class="sp-btn-icon sp-btn-del" data-inv-idx="'+i+'" title="Eliminar">🗑️</button>'+
+                '</td>'+
+            '</tr>';
+        });
+        if (investments.length === 0) {
+            html = '<tr><td colspan="7" style="text-align:center;color:#666;padding:24px;">Sin inversiones</td></tr>';
+        }
+        $('investments-body').innerHTML = html;
+    }
+
+    // =============================================
+    // ADMIN MODE
+    // =============================================
+    $('adminToggle').addEventListener('click', function() {
+        adminMode = !adminMode;
+        $('adminBar').style.display = adminMode ? 'flex' : 'none';
+        this.classList.toggle('active', adminMode);
+        document.querySelectorAll('.admin-col').forEach(function(el) {
+            el.style.display = adminMode ? '' : 'none';
+        });
+        render();
+    });
+
+    // =============================================
+    // MISSION MODAL
+    // =============================================
+    function openMissionModal(idx) {
+        editingIndex = idx;
+        var m = idx >= 0 ? missions[idx] : null;
+        $('modalTitle').textContent = m ? 'Editar Misión' : 'Nueva Misión';
+        $('mCat').value = m ? m.cat : 'DISEÑO';
+        $('mTask').value = m ? m.task : '';
+        $('mSlices').value = m ? m.slices : 30;
+        $('mStatus').value = m ? m.status : '';
+        $('mDate').value = m ? (m.date || '') : '';
+
+        // Contributors
+        renderContributors(m ? m.contributors : []);
+
+        $('missionModal').style.display = 'flex';
+    }
+
+    function renderContributors(contribs) {
+        var area = $('contributorsArea');
+        area.innerHTML = '';
+        (contribs || []).forEach(function(c, i) {
+            var row = document.createElement('div');
+            row.className = 'sp-contrib-row';
+            row.innerHTML =
+                '<select class="contrib-name">' + team.map(function(t) {
+                    return '<option'+(t.name===c.name?' selected':'')+'>'+t.name+'</option>';
+                }).join('') + '</select>' +
+                '<input type="number" class="contrib-pct" value="'+c.pct+'" min="1" max="100" placeholder="%">' +
+                '<span class="contrib-pct-label">%</span>' +
+                '<button class="sp-btn-icon sp-btn-del contrib-remove" data-i="'+i+'">✕</button>';
+            area.appendChild(row);
+        });
+    }
+
+    $('btnAddContrib').addEventListener('click', function() {
+        var contribs = getContributorsFromForm();
+        contribs.push({ name: team[0].name, pct: 100 });
+        renderContributors(contribs);
+    });
+
+    $('contributorsArea').addEventListener('click', function(e) {
+        if (e.target.classList.contains('contrib-remove')) {
+            var contribs = getContributorsFromForm();
+            contribs.splice(parseInt(e.target.getAttribute('data-i')), 1);
+            renderContributors(contribs);
+        }
+    });
+
+    function getContributorsFromForm() {
+        var rows = $('contributorsArea').querySelectorAll('.sp-contrib-row');
+        var result = [];
+        rows.forEach(function(r) {
+            result.push({
+                name: r.querySelector('.contrib-name').value,
+                pct: parseInt(r.querySelector('.contrib-pct').value) || 0
+            });
+        });
+        return result;
+    }
+
+    $('modalConfirm').addEventListener('click', function() {
+        var task = $('mTask').value.trim();
+        if (!task) { showToast('Escribe una descripción', 'error'); return; }
+        var contribs = getContributorsFromForm();
+        var obj = {
+            cat: $('mCat').value,
+            task: task,
+            slices: parseInt($('mSlices').value) || 30,
+            status: $('mStatus').value,
+            contributors: contribs,
+            date: $('mDate').value
+        };
+        if (editingIndex >= 0) {
+            missions[editingIndex] = obj;
+            showToast('Misión actualizada ✏️');
+        } else {
+            missions.push(obj);
+            showToast('Misión agregada ✅');
+        }
+        $('missionModal').style.display = 'none';
+        render();
+    });
+
+    $('modalClose').addEventListener('click', function() { $('missionModal').style.display='none'; });
+    $('modalCancel').addEventListener('click', function() { $('missionModal').style.display='none'; });
+    $('btnAddMission').addEventListener('click', function() { openMissionModal(-1); });
+
+    // Edit/Delete/Duplicate mission clicks
+    $('missions-body').addEventListener('click', function(e) {
+        var btn = e.target.closest('[data-idx]');
+        if (!btn) return;
+        var idx = parseInt(btn.getAttribute('data-idx'));
+        if (btn.classList.contains('sp-btn-edit')) {
+            openMissionModal(idx);
+        } else if (btn.classList.contains('sp-btn-dup')) {
+            var clonedMission = JSON.parse(JSON.stringify(missions[idx]));
+            clonedMission.status = "";
+            clonedMission.date = "";
+            clonedMission.contributors = []; // Limpiamos responsables para que se asigne de cero
+            missions.splice(idx + 1, 0, clonedMission); // Insertar justo debajo
+            showToast('Misión duplicada 📋');
+            render();
+        } else if (btn.classList.contains('sp-btn-del')) {
+            if (confirm('¿Eliminar esta misión?')) {
+                missions.splice(idx, 1);
+                showToast('Misión eliminada 🗑️');
+                render();
+            }
+        }
+    });
+
+    // =============================================
+    // INVESTMENT MODAL
+    // =============================================
+    $('btnAddInvestment').addEventListener('click', function() {
+        $('iWho').innerHTML = team.map(function(t){return '<option>'+t.name+'</option>';}).join('');
+        $('iDate').value = '';
+        $('iConcept').value = '';
+        $('iAmount').value = 10;
+        $('iMult').value = 4;
+        $('investModal').style.display = 'flex';
+    });
+
+    $('invConfirm').addEventListener('click', function() {
+        var concept = $('iConcept').value.trim();
+        if (!concept) { showToast('Escribe un concepto', 'error'); return; }
+        investments.push({
+            date: $('iDate').value,
+            who: $('iWho').value,
+            concept: concept,
+            amount: parseInt($('iAmount').value) || 0,
+            multiplier: parseInt($('iMult').value) || 4
+        });
+        $('investModal').style.display = 'none';
+        showToast('Inversión registrada 💰');
+        render();
+    });
+
+    $('invModalClose').addEventListener('click', function() { $('investModal').style.display='none'; });
+    $('invCancel').addEventListener('click', function() { $('investModal').style.display='none'; });
+
+    // Delete investment
+    $('investments-body').addEventListener('click', function(e) {
+        var btn = e.target.closest('[data-inv-idx]');
+        if (btn && btn.classList.contains('sp-btn-del')) {
+            if (confirm('¿Eliminar esta inversión?')) {
+                investments.splice(parseInt(btn.getAttribute('data-inv-idx')), 1);
+                showToast('Inversión eliminada');
+                render();
+            }
+        }
+    });
+
+    // =============================================
+    // SAVE FILE — Downloads the .js file
+    // =============================================
+    $('btnSave').addEventListener('click', function() {
+        var content = generateFileContent();
+        var blob = new Blob([content], { type: 'text/javascript' });
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url;
+        a.download = 'slicing-pie-data.js';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        showToast('Archivo descargado. Reemplaza assets/js/slicing-pie-data.js y pide push.', 'success');
+    });
+
+    function generateFileContent() {
+        var lines = [];
+        lines.push('// ============================================================');
+        lines.push('// SLICING PIE DATA — hentaila.pro');
+        lines.push('// Generado: ' + new Date().toLocaleString('es-PE'));
+        lines.push('// ============================================================\n');
+
+        lines.push('var TEAM = ' + JSON.stringify(team, null, 4) + ';\n');
+
+        lines.push('var MISSIONS = [');
+        missions.forEach(function(m, i) {
+            var contribStr = JSON.stringify(m.contributors);
+            var line = '    { cat: ' + JSON.stringify(m.cat) +
+                ', task: ' + JSON.stringify(m.task) +
+                ', slices: ' + m.slices +
+                ', status: ' + JSON.stringify(m.status) +
+                ', contributors: ' + contribStr +
+                ', date: ' + JSON.stringify(m.date || '') + ' }' +
+                (i < missions.length - 1 ? ',' : '');
+            lines.push(line);
+        });
+        lines.push('];\n');
+
+        lines.push('var INVESTMENTS = [');
+        investments.forEach(function(inv, i) {
+            var line = '    { date: ' + JSON.stringify(inv.date) +
+                ', who: ' + JSON.stringify(inv.who) +
+                ', concept: ' + JSON.stringify(inv.concept) +
+                ', amount: ' + inv.amount +
+                ', multiplier: ' + inv.multiplier + ' }' +
+                (i < investments.length - 1 ? ',' : '');
+            lines.push(line);
+        });
+        lines.push('];');
+
+        return lines.join('\n');
+    }
+
+    // =============================================
+    // FILTER EVENTS
+    // =============================================
+    $('category-filters').addEventListener('click', function(e) {
+        if (e.target.classList.contains('sp-filter-btn')) {
+            currentFilter = e.target.getAttribute('data-cat');
+            render();
+        }
+    });
+
+    // Refresh button — sort missions by category then task name
+    var catOrder = ['DISEÑO','SEO','MARKETING','DEPLOY','DATABASE','VIDEOS','CATÁLOGO','TIERLIST','AKINATOR'];
+    $('btnRefresh').addEventListener('click', function() {
+        missions.sort(function(a, b) {
+            var ai = catOrder.indexOf(a.cat), bi = catOrder.indexOf(b.cat);
+            if (ai === -1) ai = 999; if (bi === -1) bi = 999;
+            if (ai !== bi) return ai - bi;
+            return a.task.localeCompare(b.task, 'es');
+        });
+        render();
+        showToast('Misiones reordenadas por categoría 🔄');
+    });
+
+    // Rules toggle
+    $('rules-toggle').addEventListener('click', function() {
+        this.classList.toggle('open');
+        $('rules-content').classList.toggle('open');
+    });
+
+    // Close modals on overlay click
+    document.querySelectorAll('.sp-modal-overlay').forEach(function(overlay) {
+        overlay.addEventListener('click', function(e) {
+            if (e.target === overlay) overlay.style.display = 'none';
+        });
+    });
+
+    // =============================================
+    // INITIAL RENDER
+    // =============================================
+    render();
+})();
+</script>
+</body>
+</html>
