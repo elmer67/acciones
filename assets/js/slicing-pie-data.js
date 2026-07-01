@@ -10,7 +10,7 @@ var TEAM = [
         "color": "#E91E8C"
     },
     {
-        "name": "Jorge",
+        "name": "MrDuo",
         "role": "Base de Datos Oracle + DBA",
         "color": "#50C878"
     },
