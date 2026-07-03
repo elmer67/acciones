@@ -1,6 +1,6 @@
 // ============================================================
 // SLICING PIE DATA — hentaila.pro
-// Generado: 3/7/2026, 9:21:26 a. m.
+// Generado: 3/7/2026, 11:38:25 a. m.
 // ============================================================
 
 var TEAM = [
@@ -125,9 +125,9 @@ var MISSIONS = [
     { cat: "DATABASE", task: "Insertar 700 animes completos", slices: 1050, status: "HECHO", contributors: [{"name":"Maximo","pct":100}], date: "02/05/26" },
     { cat: "VIDEOS", task: "Ver y clasificar 7 hentais a la DB", slices: 30, status: "HECHO", contributors: [{"name":"MrDuo","pct":100}], date: "03/07/26" },
     { cat: "VIDEOS", task: "Subir 7 animes completos a 3 servidores (HLS,MP4EN,MP4ES)", slices: 30, status: "", contributors: [], date: "" },
-    { cat: "VIDEOS", task: "Ver y clasificar 7 hentais a la DB", slices: 30, status: "", contributors: [], date: "" },
+    { cat: "VIDEOS", task: "Ver y clasificar 7 hentais a la DB", slices: 30, status: "HECHO", contributors: [{"name":"Osorio","pct":100}], date: "03/07/26" },
     { cat: "VIDEOS", task: "Subir 7 animes completos a 3 servidores (HLS,MP4EN,MP4ES)", slices: 30, status: "", contributors: [], date: "" },
-    { cat: "VIDEOS", task: "Ver y clasificar 7 hentais a la DB", slices: 30, status: "", contributors: [], date: "" },
+    { cat: "VIDEOS", task: "Ver y clasificar 7 hentais a la DB", slices: 30, status: "HECHO", contributors: [{"name":"Osorio","pct":100}], date: "03/07/26" },
     { cat: "VIDEOS", task: "Subir 7 animes completos a 3 servidores (HLS,MP4EN,MP4ES)", slices: 30, status: "", contributors: [], date: "" },
     { cat: "VIDEOS", task: "Ver y clasificar 7 hentais a la DB", slices: 30, status: "", contributors: [], date: "" },
     { cat: "VIDEOS", task: "Subir 7 animes completos a 3 servidores (HLS,MP4EN,MP4ES)", slices: 30, status: "", contributors: [], date: "" },
