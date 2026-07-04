@@ -38,11 +38,6 @@ var TEAM = [
         "name": "Flower",
         "role": "Experto en Metadatos",
         "color": "#1ABC9C"
-    },
-    {
-        "name": "Maurizio",
-        "role": "Subida a Redes (HLS/R2)",
-        "color": "#3498DB"
     }
 ];
 
