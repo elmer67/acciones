@@ -1,6 +1,6 @@
 // ============================================================
 // SLICING PIE DATA — hentaila.pro
-// Generado: 3/7/2026, 11:38:25 a. m.
+// Generado: 4/7/2026, 11:55:57 a. m.
 // ============================================================
 
 var TEAM = [
@@ -124,9 +124,9 @@ var MISSIONS = [
     { cat: "VIDEOS", task: "Subir 7 animes completos a 3 servidores (HLS,MP4EN,MP4ES)", slices: 30, status: "", contributors: [], date: "" },
     { cat: "VIDEOS", task: "Ver y clasificar 7 hentais a la DB", slices: 30, status: "HECHO", contributors: [{"name":"Osorio","pct":100}], date: "03/07/26" },
     { cat: "VIDEOS", task: "Subir 7 animes completos a 3 servidores (HLS,MP4EN,MP4ES)", slices: 30, status: "", contributors: [], date: "" },
-    { cat: "VIDEOS", task: "Ver y clasificar 7 hentais a la DB", slices: 30, status: "", contributors: [], date: "" },
+    { cat: "VIDEOS", task: "Ver y clasificar 7 hentais a la DB", slices: 30, status: "HECHO", contributors: [{"name":"Osorio","pct":100}], date: "04/07/26" },
     { cat: "VIDEOS", task: "Subir 7 animes completos a 3 servidores (HLS,MP4EN,MP4ES)", slices: 30, status: "", contributors: [], date: "" },
-    { cat: "VIDEOS", task: "Ver y clasificar 7 hentais a la DB", slices: 30, status: "", contributors: [], date: "" },
+    { cat: "VIDEOS", task: "Ver y clasificar 7 hentais a la DB", slices: 30, status: "HECHO", contributors: [{"name":"Osorio","pct":100}], date: "04/07/26" },
     { cat: "VIDEOS", task: "Subir 7 animes completos a 3 servidores (HLS,MP4EN,MP4ES)", slices: 30, status: "", contributors: [], date: "" },
     { cat: "VIDEOS", task: "Ver y clasificar 7 hentais a la DB", slices: 30, status: "", contributors: [], date: "" },
     { cat: "VIDEOS", task: "Subir 7 animes completos a 3 servidores (HLS,MP4EN,MP4ES)", slices: 30, status: "", contributors: [], date: "" },
@@ -404,7 +404,8 @@ var MISSIONS = [
     { cat: "VIDEOS", task: "Subir 7 animes completos a 3 servidores (HLS,MP4EN,MP4ES)", slices: 30, status: "", contributors: [], date: "" },
     { cat: "DATABASE", task: "Patch de letras completadas", slices: 15, status: "HECHO", contributors: [{"name":"Maximo","pct":100}], date: "02/07/26" },
     { cat: "DISEÑO", task: "Implementación de previews para los capitulos", slices: 20, status: "HECHO", contributors: [{"name":"Maximo","pct":100}], date: "02/07/26" },
-    { cat: "DISEÑO", task: "Arreglo del carrusel de imágenes(home)", slices: 15, status: "HECHO", contributors: [{"name":"Maximo","pct":100}], date: "02/07/26" }
+    { cat: "DISEÑO", task: "Arreglo del carrusel de imágenes(home)", slices: 15, status: "HECHO", contributors: [{"name":"Maximo","pct":100}], date: "02/07/26" },
+    { cat: "DISEÑO", task: "Version 0.3 Alpha, carrusel animado, preview,boton de filtros, boton de sin censura,scrap, etc", slices: 150, status: "HECHO", contributors: [{"name":"Maximo","pct":100}], date: "03/07/2026" }
 ];
 
 var INVESTMENTS = [
