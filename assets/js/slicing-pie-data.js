@@ -1,6 +1,6 @@
 // ============================================================
 // SLICING PIE DATA — hentaila.pro
-// Generado: 26/6/2026, 3:06:32 p. m.
+// Generado: 6/7/2026, 6:05:51 p. m.
 // ============================================================
 
 var TEAM = [
@@ -106,7 +106,7 @@ var MISSIONS = [
     { cat: "DATABASE", task: "Insertar los 39 géneros", slices: 50, status: "HECHO", contributors: [{"name":"Maximo","pct":100}], date: "10/05/26" },
     { cat: "VIDEOS", task: "Crear Marca de Agua", slices: 100, status: "HECHO", contributors: [{"name":"Maximo","pct":100}], date: "24/03/2026" },
     { cat: "VIDEOS", task: "Crear un servicio optimizado de videos (Pasar de 600mb a 200mb)", slices: 30, status: "HECHO", contributors: [{"name":"Maximo","pct":100}], date: "20/06/26" },
-    { cat: "VIDEOS", task: "Ver y clasificar 7 hentais a la DB", slices: 30, status: "", contributors: [], date: "" },
+    { cat: "VIDEOS", task: "Ver y clasificar 7 hentais a la DB", slices: 30, status: "HECHO", contributors: [{"name":"MrDuo","pct":100}], date: "02/07/26" },
     { cat: "VIDEOS", task: "Subir 7 animes completos a 3 servidores (HLS,MP4EN,MP4ES)", slices: 30, status: "", contributors: [], date: "" },
     { cat: "CATÁLOGO", task: "Agregar filtro de casa de estudio", slices: 50, status: "HECHO", contributors: [{"name":"Maximo","pct":100}], date: "27/04/2026" },
     { cat: "CATÁLOGO", task: "Agregar filtro de generos excluidos", slices: 50, status: "HECHO", contributors: [{"name":"Maximo","pct":100}], date: "27/04/2026" },
@@ -128,21 +128,21 @@ var MISSIONS = [
     { cat: "AKINATOR", task: "Conectar con database", slices: 200, status: "HECHO", contributors: [{"name":"Maximo","pct":100}], date: "15/05/26" },
     { cat: "CATÁLOGO", task: "Subir corazones y ordenarlos por top (Overflow top1 papu)", slices: 50, status: "HECHO", contributors: [{"name":"Maximo","pct":100}], date: "28/04/2026" },
     { cat: "DATABASE", task: "Insertar 700 animes completos", slices: 1050, status: "HECHO", contributors: [{"name":"Maximo","pct":100}], date: "02/05/26" },
-    { cat: "VIDEOS", task: "Ver y clasificar 7 hentais a la DB", slices: 30, status: "", contributors: [], date: "" },
+    { cat: "VIDEOS", task: "Ver y clasificar 7 hentais a la DB", slices: 30, status: "HECHO", contributors: [{"name":"MrDuo","pct":100}], date: "03/07/26" },
     { cat: "VIDEOS", task: "Subir 7 animes completos a 3 servidores (HLS,MP4EN,MP4ES)", slices: 30, status: "", contributors: [], date: "" },
-    { cat: "VIDEOS", task: "Ver y clasificar 7 hentais a la DB", slices: 30, status: "", contributors: [], date: "" },
+    { cat: "VIDEOS", task: "Ver y clasificar 7 hentais a la DB", slices: 30, status: "HECHO", contributors: [{"name":"Osorio","pct":100}], date: "03/07/26" },
     { cat: "VIDEOS", task: "Subir 7 animes completos a 3 servidores (HLS,MP4EN,MP4ES)", slices: 30, status: "", contributors: [], date: "" },
-    { cat: "VIDEOS", task: "Ver y clasificar 7 hentais a la DB", slices: 30, status: "", contributors: [], date: "" },
+    { cat: "VIDEOS", task: "Ver y clasificar 7 hentais a la DB", slices: 30, status: "HECHO", contributors: [{"name":"Osorio","pct":100}], date: "03/07/26" },
     { cat: "VIDEOS", task: "Subir 7 animes completos a 3 servidores (HLS,MP4EN,MP4ES)", slices: 30, status: "", contributors: [], date: "" },
-    { cat: "VIDEOS", task: "Ver y clasificar 7 hentais a la DB", slices: 30, status: "", contributors: [], date: "" },
+    { cat: "VIDEOS", task: "Ver y clasificar 7 hentais a la DB", slices: 30, status: "HECHO", contributors: [{"name":"Osorio","pct":100}], date: "04/07/26" },
     { cat: "VIDEOS", task: "Subir 7 animes completos a 3 servidores (HLS,MP4EN,MP4ES)", slices: 30, status: "", contributors: [], date: "" },
-    { cat: "VIDEOS", task: "Ver y clasificar 7 hentais a la DB", slices: 30, status: "", contributors: [], date: "" },
+    { cat: "VIDEOS", task: "Ver y clasificar 7 hentais a la DB", slices: 30, status: "HECHO", contributors: [{"name":"Osorio","pct":100}], date: "04/07/26" },
     { cat: "VIDEOS", task: "Subir 7 animes completos a 3 servidores (HLS,MP4EN,MP4ES)", slices: 30, status: "", contributors: [], date: "" },
-    { cat: "VIDEOS", task: "Ver y clasificar 7 hentais a la DB", slices: 30, status: "", contributors: [], date: "" },
+    { cat: "VIDEOS", task: "Ver y clasificar 7 hentais a la DB", slices: 30, status: "HECHO", contributors: [{"name":"MrDuo","pct":100}], date: "05/07/26" },
     { cat: "VIDEOS", task: "Subir 7 animes completos a 3 servidores (HLS,MP4EN,MP4ES)", slices: 30, status: "", contributors: [], date: "" },
-    { cat: "VIDEOS", task: "Ver y clasificar 7 hentais a la DB", slices: 30, status: "", contributors: [], date: "" },
+    { cat: "VIDEOS", task: "Ver y clasificar 7 hentais a la DB", slices: 30, status: "HECHO", contributors: [{"name":"MrDuo","pct":100}], date: "05/07/26" },
     { cat: "VIDEOS", task: "Subir 7 animes completos a 3 servidores (HLS,MP4EN,MP4ES)", slices: 30, status: "", contributors: [], date: "" },
-    { cat: "VIDEOS", task: "Ver y clasificar 7 hentais a la DB", slices: 30, status: "", contributors: [], date: "" },
+    { cat: "VIDEOS", task: "Ver y clasificar 7 hentais a la DB", slices: 30, status: "HECHO", contributors: [{"name":"MrDuo","pct":100}], date: "06/07/26" },
     { cat: "VIDEOS", task: "Subir 7 animes completos a 3 servidores (HLS,MP4EN,MP4ES)", slices: 30, status: "", contributors: [], date: "" },
     { cat: "VIDEOS", task: "Ver y clasificar 7 hentais a la DB", slices: 30, status: "", contributors: [], date: "" },
     { cat: "VIDEOS", task: "Subir 7 animes completos a 3 servidores (HLS,MP4EN,MP4ES)", slices: 30, status: "", contributors: [], date: "" },
@@ -411,7 +411,13 @@ var MISSIONS = [
     { cat: "VIDEOS", task: "Ver y clasificar 7 hentais a la DB", slices: 30, status: "", contributors: [], date: "" },
     { cat: "VIDEOS", task: "Subir 7 animes completos a 3 servidores (HLS,MP4EN,MP4ES)", slices: 30, status: "", contributors: [], date: "" },
     { cat: "VIDEOS", task: "Ver y clasificar 7 hentais a la DB", slices: 30, status: "", contributors: [], date: "" },
-    { cat: "VIDEOS", task: "Subir 7 animes completos a 3 servidores (HLS,MP4EN,MP4ES)", slices: 30, status: "", contributors: [], date: "" }
+    { cat: "VIDEOS", task: "Subir 7 animes completos a 3 servidores (HLS,MP4EN,MP4ES)", slices: 30, status: "", contributors: [], date: "" },
+    { cat: "DATABASE", task: "Patch de letras completadas", slices: 15, status: "HECHO", contributors: [{"name":"Maximo","pct":100}], date: "02/07/26" },
+    { cat: "DISEÑO", task: "Implementación de previews para los capitulos", slices: 20, status: "HECHO", contributors: [{"name":"Maximo","pct":100}], date: "02/07/26" },
+    { cat: "DISEÑO", task: "Arreglo del carrusel de imágenes(home)", slices: 15, status: "HECHO", contributors: [{"name":"Maximo","pct":100}], date: "02/07/26" },
+    { cat: "DISEÑO", task: "Version 0.3 Alpha, carrusel animado, preview,boton de filtros, boton de sin censura,scrap, etc", slices: 150, status: "HECHO", contributors: [{"name":"Maximo","pct":100}], date: "03/07/2026" },
+    { cat: "DISEÑO", task: "Añadir filtro de rango de año en catalogo", slices: 15, status: "HECHO", contributors: [{"name":"Maximo","pct":100}], date: "06/07/26" },
+    { cat: "DISEÑO", task: "Rediseño v2.0 del catalogo", slices: 50, status: "HECHO", contributors: [{"name":"Maximo","pct":100}], date: "06/07/26" }
 ];
 
 var INVESTMENTS = [
