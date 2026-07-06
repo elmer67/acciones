@@ -43,6 +43,11 @@ var TEAM = [
         "name": "Maurizio",
         "role": "Subida a Redes (HLS/R2)",
         "color": "#3498DB"
+    },
+    {
+        "name": "Anderson",
+        "role": "Experto + Redes",
+        "color": "#F1C40F"
     }
 ];
 
