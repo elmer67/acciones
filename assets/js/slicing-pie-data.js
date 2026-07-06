@@ -1,6 +1,6 @@
 // ============================================================
 // SLICING PIE DATA — hentaila.pro
-// Generado: 5/7/2026, 12:13:29 p. m.
+// Generado: 5/7/2026, 8:09:58 p. m.
 // ============================================================
 
 var TEAM = [
@@ -130,7 +130,7 @@ var MISSIONS = [
     { cat: "VIDEOS", task: "Subir 7 animes completos a 3 servidores (HLS,MP4EN,MP4ES)", slices: 30, status: "", contributors: [], date: "" },
     { cat: "VIDEOS", task: "Ver y clasificar 7 hentais a la DB", slices: 30, status: "HECHO", contributors: [{"name":"MrDuo","pct":100}], date: "05/07/26" },
     { cat: "VIDEOS", task: "Subir 7 animes completos a 3 servidores (HLS,MP4EN,MP4ES)", slices: 30, status: "", contributors: [], date: "" },
-    { cat: "VIDEOS", task: "Ver y clasificar 7 hentais a la DB", slices: 30, status: "", contributors: [], date: "" },
+    { cat: "VIDEOS", task: "Ver y clasificar 7 hentais a la DB", slices: 30, status: "HECHO", contributors: [{"name":"MrDuo","pct":100}], date: "05/07/26" },
     { cat: "VIDEOS", task: "Subir 7 animes completos a 3 servidores (HLS,MP4EN,MP4ES)", slices: 30, status: "", contributors: [], date: "" },
     { cat: "VIDEOS", task: "Ver y clasificar 7 hentais a la DB", slices: 30, status: "", contributors: [], date: "" },
     { cat: "VIDEOS", task: "Subir 7 animes completos a 3 servidores (HLS,MP4EN,MP4ES)", slices: 30, status: "", contributors: [], date: "" },
