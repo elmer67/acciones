@@ -1,6 +1,6 @@
 // ============================================================
 // SLICING PIE DATA — hentaila.pro
-// Generado: 6/7/2026, 6:05:51 p. m.
+// Generado: 8/7/2026, 1:53:13 p. m.
 // ============================================================
 
 var TEAM = [
@@ -139,7 +139,7 @@ var MISSIONS = [
     { cat: "VIDEOS", task: "Subir 7 animes completos a 3 servidores (HLS,MP4EN,MP4ES)", slices: 30, status: "", contributors: [], date: "" },
     { cat: "VIDEOS", task: "Ver y clasificar 7 hentais a la DB", slices: 30, status: "HECHO", contributors: [{"name":"MrDuo","pct":100}], date: "06/07/26" },
     { cat: "VIDEOS", task: "Subir 7 animes completos a 3 servidores (HLS,MP4EN,MP4ES)", slices: 30, status: "", contributors: [], date: "" },
-    { cat: "VIDEOS", task: "Ver y clasificar 7 hentais a la DB", slices: 30, status: "", contributors: [], date: "" },
+    { cat: "VIDEOS", task: "Ver y clasificar 7 hentais a la DB", slices: 30, status: "HECHO", contributors: [{"name":"MrDuo","pct":100}], date: "08/07/26" },
     { cat: "VIDEOS", task: "Subir 7 animes completos a 3 servidores (HLS,MP4EN,MP4ES)", slices: 30, status: "", contributors: [], date: "" },
     { cat: "VIDEOS", task: "Ver y clasificar 7 hentais a la DB", slices: 30, status: "", contributors: [], date: "" },
     { cat: "VIDEOS", task: "Subir 7 animes completos a 3 servidores (HLS,MP4EN,MP4ES)", slices: 30, status: "", contributors: [], date: "" },
@@ -412,7 +412,9 @@ var MISSIONS = [
     { cat: "DISEÑO", task: "Arreglo del carrusel de imágenes(home)", slices: 15, status: "HECHO", contributors: [{"name":"Maximo","pct":100}], date: "02/07/26" },
     { cat: "DISEÑO", task: "Version 0.3 Alpha, carrusel animado, preview,boton de filtros, boton de sin censura,scrap, etc", slices: 150, status: "HECHO", contributors: [{"name":"Maximo","pct":100}], date: "03/07/2026" },
     { cat: "DISEÑO", task: "Añadir filtro de rango de año en catalogo", slices: 15, status: "HECHO", contributors: [{"name":"Maximo","pct":100}], date: "06/07/26" },
-    { cat: "DISEÑO", task: "Rediseño v2.0 del catalogo", slices: 50, status: "HECHO", contributors: [{"name":"Maximo","pct":100}], date: "06/07/26" }
+    { cat: "DISEÑO", task: "Rediseño v2.0 del catalogo", slices: 50, status: "HECHO", contributors: [{"name":"Maximo","pct":100}], date: "06/07/26" },
+    { cat: "DISEÑO", task: "Integración de 186 Hentais Nuevos al catalogo", slices: 650, status: "HECHO", contributors: [{"name":"Maximo","pct":100}], date: "07/07/26" },
+    { cat: "DISEÑO", task: "vBeta de login de cuentas para la página", slices: 100, status: "HECHO", contributors: [{"name":"Maximo","pct":100}], date: "08/07/26" }
 ];
 
 var INVESTMENTS = [
